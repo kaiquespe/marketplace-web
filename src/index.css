@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* DM Sans classes */
+.title-lg {
+  @apply text-2xl font-bold font-dm-sans; 
+}
+
+.title-md {
+  @apply text-xl font-bold font-dm-sans;
+}
+
+.title-sm {
+  @apply text-lg font-bold font-dm-sans;
+}
+
+/* Poppins classes */
+.subtitle {
+  @apply text-base font-semibold;
+}
+
+.body-md {
+  @apply text-base font-normal;
+}
+
+.body-sm {
+  @apply text-sm font-normal;
+}
+
+.body-xs {
+  @apply text-xs font-normal;
+}
+
+.label-md {
+  @apply text-xs font-medium uppercase;
+}
+
+.label-sm {
+  @apply text-xs font-medium uppercase;
+}
+
+.action-md {
+  @apply text-base font-medium;
+}
+
+.action-sm {
+  @apply text-sm font-medium;
+}
