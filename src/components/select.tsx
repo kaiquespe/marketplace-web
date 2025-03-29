@@ -1,6 +1,6 @@
 import * as SelectPrimitive from "@radix-ui/react-select";
 import * as HugeIcons from "hugeicons-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "../lib/utils";
 
 interface SelectProps {
@@ -10,6 +10,8 @@ interface SelectProps {
 	options: { value: string; label: string }[];
 	icon?: keyof typeof HugeIcons;
 	error?: string;
+	value?: string;
+	onChange?: (value: string) => void;
 }
 
 export function Select({
@@ -19,9 +21,17 @@ export function Select({
 	options,
 	error,
 	icon,
+	value,
+	onChange,
 }: SelectProps): JSX.Element {
 	const [isFocused, setIsFocused] = useState(false);
-	const [selectedValue, setSelectedValue] = useState<string | null>(null);
+	const [selectedValue, setSelectedValue] = useState<string | null>(value || null);
+
+	useEffect(() => {
+		if (value !== undefined) {
+			setSelectedValue(value);
+		}
+	}, [value]);
 
 	const handleFocus = () => setIsFocused(true);
 
@@ -29,6 +39,12 @@ export function Select({
 
 	const handleClear = () => {
 		setSelectedValue(null);
+		onChange?.('');
+	};
+
+	const handleValueChange = (newValue: string) => {
+		setSelectedValue(newValue);
+		onChange?.(newValue);
 	};
 
 	const getSelectedLabel = () => {
@@ -57,7 +73,7 @@ export function Select({
 
 			<SelectPrimitive.Root
 				value={selectedValue || undefined}
-				onValueChange={(value) => setSelectedValue(value)}
+				onValueChange={handleValueChange}
 			>
 				<div className="relative">
 					<SelectPrimitive.Trigger
