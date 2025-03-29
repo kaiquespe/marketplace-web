@@ -24,19 +24,17 @@ export function Products() {
 
 	return (
 		<>
-			<Helmet>
-				<title>Products</title>
-			</Helmet>
-			<div className="flex flex-col gap-10 px-32 p-4">
-				<section className="flex flex-col gap-2">
-					<h1 className="title-md">Your products</h1>
-					<p className="body-sm">Explore and manage your products here</p>
+			<Helmet title="Produtos" />
+			<div className="flex flex-col gap-10 px-32 py-10">
+				<section className="flex flex-col gap-2 mt-16">
+					<h1 className="title-md">Seus produtos</h1>
+					<p className="body-sm">Acesse gerencie a sua lista de produtos à venda</p>
 				</section>
-				<section className="gap-4 grid grid-cols-3">
-					<aside className="items-start col-span-1 self-start">
+				<section className="flex gap-8">
+					<aside className="w-[280px]">
 						<Filters />
 					</aside>
-					<div className="items-start col-span-2">
+					<div className="flex-1">
 						<div className="gap-4 grid grid-cols-2">
 							{productsData?.data.products?.map((product) => (
 								<ProductCard

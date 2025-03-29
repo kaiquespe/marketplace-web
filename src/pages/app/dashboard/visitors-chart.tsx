@@ -65,7 +65,6 @@ export function VisitorsChart({ data }: VisitorsChartProps) {
 }
 
 import type { TooltipProps } from "recharts";
-import { ViewsPerDayResponse } from "../../../api/views-per-day";
 
 function CustomTooltip({
 	payload,

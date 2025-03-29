@@ -22,34 +22,30 @@ export function ProductCard({
 	category,
 }: ProductCardProps) {
 	return (
-		<Link to={`/product/${id}`} className="block">
-			<div className="border-2 border-white hover:border-2 bg-white p-1 hover:border-blue-base rounded-[20px] max-w-sm max-h-60 transition-all duration-200">
+		<Link to={`/product/${id}`}>
+			<div className="bg-white rounded-[20px] overflow-hidden hover:ring-2 hover:ring-orange-base transition-all duration-200">
 				<div className="relative">
 					<img
-						className="rounded-[20px] w-full h-32 object-cover"
+						className="w-full h-[200px] object-cover"
 						src={imageUrl}
 						alt={title}
 					/>
-					<div className="top-0 right-0 absolute flex gap-2 mt-2 mr-2">
+					<div className="absolute top-2 right-2 flex gap-1">
 						<StatusTag variant={status} />
 						<CategoryTag label={category} />
 					</div>
 				</div>
-				<div className="p-3">
-					<div className="flex justify-between items-center">
-						<h3 className="text-gray-400 subtitle">{title}</h3>
-						<div className="flex items-baseline gap-1">
-							<span className="text-gray-500 label-md">$</span>
-							<p className="font-bold font-dm-sans text-gray-500 text-lg">
-								{price.toFixed(2)}
-							</p>
+				<div className="p-4">
+					<div className="flex justify-between items-start mb-2">
+						<h3 className="text-gray-900 font-medium text-lg line-clamp-1">{title}</h3>
+						<div className="flex items-baseline">
+							<span className="text-xs font-medium text-gray-500 mr-1">R$</span>
+							<span className="text-gray-900 font-bold">{price.toFixed(2)}</span>
 						</div>
 					</div>
-					<div>
-						<p className="line-clamp-2 text-gray-300 text-pretty overflow-hidden body-sm">
-							{description}
-						</p>
-					</div>
+					<p className="text-gray-500 text-sm line-clamp-2">
+						{description}
+					</p>
 				</div>
 			</div>
 		</Link>
