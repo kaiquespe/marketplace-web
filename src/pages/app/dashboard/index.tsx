@@ -10,9 +10,13 @@ export function Dashboard() {
 	return (
 		<>
 			<Helmet title="Dashboard" />
-			<div className="flex flex-col gap-6">
-				<section className="flex flex-col gap-6">
-					<div className="flex gap-6">
+			<div className="flex flex-col gap-10 px-32 py-10">
+				<section className="flex flex-col gap-2 mt-16">
+					<h1 className="title-md">Últimos 30 dias</h1>
+					<p className="body-sm">Confira as estatísticas da sua loja no último mês</p>
+				</section>
+				<section className="flex gap-4">
+					<div className="gap-4 grid grid-rows-3 w-60">
 						<div className="flex justify-between items-center gap-2 bg-white py-3 pr-7 pl-3 rounded-[20px]">
 							<div className="flex justify-center items-center bg-orange-light rounded-xl w-20 h-[86px] text-orange-dark">
 								<SaleTag02Icon size={40} />
@@ -25,7 +29,7 @@ export function Dashboard() {
 										productsSold?.amount
 									)}
 								</h2>
-								<p className="text-pretty body-xs">Products sold</p>
+								<p className="text-pretty body-xs">Produtos vendidos</p>
 							</div>
 						</div>
 
@@ -41,7 +45,7 @@ export function Dashboard() {
 										productsAdvertised?.amount
 									)}
 								</h2>
-								<p className="text-pretty body-xs">Products advertised</p>
+								<p className="text-pretty body-xs">Produtos anunciados</p>
 							</div>
 						</div>
 
@@ -57,7 +61,7 @@ export function Dashboard() {
 										views?.amount
 									)}
 								</h2>
-								<p className="text-pretty body-xs">Total visitors</p>
+								<p className="text-pretty body-xs">Pessoas visitantes</p>
 							</div>
 						</div>
 					</div>
