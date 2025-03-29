@@ -21,14 +21,14 @@ export function SignIn() {
 		mutationFn: signIn,
 	});
 
-	const { control, handleSubmit, formState: { isSubmitting} } = useForm<SignInFormData>({
+	const { control, handleSubmit, formState: { isSubmitting } } = useForm<SignInFormData>({
 		defaultValues: {
 			email: "",
 			password: "",
 		}
 	});
 
-	async function handleSignIn(data: z.infer<typeof signInSchema>) {
+	async function handleSignIn(data: SignInFormData) {
 		try {
 			await mutateAsync({
 				email: data.email,
@@ -37,7 +37,7 @@ export function SignIn() {
 			navigate("/");
 		} catch (error) {
 			console.error(error);
-			toast.error("Failed to sign in");
+			toast.error("Falha ao fazer login");
 		}
 	}
 
@@ -46,60 +46,59 @@ export function SignIn() {
 	}
 
 	return (
-		<div className="flex flex-col gap-32 w-full">
-			<form className="flex flex-col gap-12 w-full" onSubmit={handleSubmit(handleSignIn)}>
-				<div className="flex flex-col gap-2">
-					<h1 className="text-gray-500 title-md">Sign in</h1>
-					<p className="text-gray-300 text-sm">
-						Welcome back! Please sign in to your account.
-					</p>
-				</div>
-				<div className="flex flex-col gap-5 w-full">
-					<Controller 
-						name="email"
-						control={control}
-						render={({ field }) => (
-							<Input
-								id="email"
-								type="email"
-								error=""
-								icon="Mail01Icon"
-								label="E-Mail"
-								placeholder="Type your e-mail"
-								{...field}
-							/>
-						)}
-					/>
-					<Controller 
-						name="password"
-						control={control}
-						render={({ field }) => (
-							<Input
-								id="password"
-								type="password"
-								error=""
-								icon="LockIcon"
-								label="Password"
-								placeholder="Type your password"
-								{...field}
-							/>
-						)}
-					/>
+		<div className="flex flex-col gap-8">
+			<div>
+				<h1 className="text-2xl font-medium text-gray-900 mb-2">Acesse sua conta</h1>
+				<p className="text-gray-500">
+					Informe seu e-mail e senha para entrar
+				</p>
+			</div>
 
-				</div>
+			<form className="flex flex-col gap-6" onSubmit={handleSubmit(handleSignIn)}>
+				<Controller 
+					name="email"
+					control={control}
+					render={({ field }) => (
+						<Input
+							id="email"
+							type="email"
+							error=""
+							icon="Mail01Icon"
+							label="E-mail"
+							placeholder="Seu e-mail cadastrado"
+							{...field}
+						/>
+					)}
+				/>
+				<Controller 
+					name="password"
+					control={control}
+					render={({ field }) => (
+						<Input
+							id="password"
+							type="password"
+							error=""
+							icon="LockIcon"
+							label="Senha"
+							placeholder="Sua senha de acesso"
+							{...field}
+						/>
+					)}
+				/>
+
 				<Button
-					label="Sign in"
+					label="Acessar"
 					type="submit"
 					size="md"
 					variant="solid"
-					icon="ArrowRight02Icon"
-					iconPosition="right"
+					disabled={isSubmitting}
 				/>
 			</form>
-			<div className="flex flex-col gap-2">
-				<p>Don't have an account? </p>
+
+			<div className="flex flex-col items-center gap-4">
+				<p className="text-gray-500">Ainda não tem uma conta?</p>
 				<Button
-					label="Sign up"
+					label="Cadastrar"
 					onClick={handleSignUp}
 					size="md"
 					variant="outline"

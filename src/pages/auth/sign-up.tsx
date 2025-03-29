@@ -1,11 +1,9 @@
-import * as Separator from "@radix-ui/react-separator";
 import { useMutation } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 import { signUp } from "../../api/sign-up";
-import { AvatarUpload } from "../../components/avatar-upload";
 import { Button } from "../../components/button";
 import { Input } from "../../components/input";
 
@@ -14,8 +12,7 @@ const signUpSchema = z.object({
 	phone: z.string(),
 	email: z.string().email(),
 	password: z.string().min(8),
-	passwordConfirmation: z.string().min(8),
-	avatarId: z.string(),
+	confirmPassword: z.string().min(8),
 });
 
 export type SignUpPayload = z.infer<typeof signUpSchema>;
@@ -41,39 +38,35 @@ export function SignUp() {
 	async function handleSignUp(data: SignUpPayload) {
 		try {
 			await mutateAsync({
-				avatarId: data.avatarId,
 				email: data.email,
 				name: data.name,
 				password: data.password,
-				passwordConfirmation: data.passwordConfirmation,
+				passwordConfirmation: data.confirmPassword,
 				phone: data.phone,
 			});
 
-			toast.success("Account created successfully!");
+			toast.success("Conta criada com sucesso!");
 			reset();
+			navigate("/sign-in");
 		} catch (error) {
 			console.error("Error during sign-up", error);
-			toast.error("An error occurred while creating your account.");
+			toast.error("Ocorreu um erro ao criar sua conta.");
 		}
 	}
 
 	return (
-		<div className="flex flex-col justify-start gap-32 w-full">
-			<form className="flex flex-col gap-12 w-full">
-				<div className="flex flex-col gap-2">
-					<h1 className="text-gray-500 title-md">Sign up</h1>
-					<p className="text-gray-300 text-sm">
-						Welcome! Please sign up to create your account.
-					</p>
-				</div>
-				<div className="flex flex-col gap-5 w-full">
-					<div className="flex flex-col gap-2">
-						<h3>Profile</h3>
-						<AvatarUpload />
-						<Separator.Root
-							className="bg-transparent w-full h-2"
-							orientation="horizontal"
-						/>
+		<div className="flex flex-col gap-8">
+			<div>
+				<h1 className="text-2xl font-medium text-gray-900 mb-2">Crie sua conta</h1>
+				<p className="text-gray-500">
+					Preencha seus dados pessoais e de acesso
+				</p>
+			</div>
+
+			<form className="flex flex-col gap-6" onSubmit={handleSubmit(handleSignUp)}>
+				<div>
+					<h2 className="text-sm font-medium text-gray-700 mb-4">Perfil</h2>
+					<div className="flex flex-col gap-4">
 						<Controller
 							name="name"
 							control={control}
@@ -83,8 +76,8 @@ export function SignUp() {
 									type="text"
 									error={errors.name?.message}
 									icon="UserIcon"
-									label="Name"
-									placeholder="Type your name"
+									label="Nome completo"
+									placeholder="Seu nome completo"
 									{...field}
 								/>
 							)}
@@ -98,15 +91,18 @@ export function SignUp() {
 									type="tel"
 									error={errors.phone?.message}
 									icon="CallIcon"
-									label="Phone"
-									placeholder="Type your phone"
+									label="Telefone"
+									placeholder="(00) 00000-0000"
 									{...field}
 								/>
 							)}
 						/>
 					</div>
-					<div className="flex flex-col gap-2">
-						<h3>Access</h3>
+				</div>
+
+				<div>
+					<h2 className="text-sm font-medium text-gray-700 mb-4">Acesso</h2>
+					<div className="flex flex-col gap-4">
 						<Controller
 							name="email"
 							control={control}
@@ -116,8 +112,8 @@ export function SignUp() {
 									type="email"
 									error={errors.email?.message}
 									icon="Mail01Icon"
-									label="E-Mail"
-									placeholder="Type your e-mail"
+									label="E-mail"
+									placeholder="Seu melhor e-mail"
 									{...field}
 								/>
 							)}
@@ -131,42 +127,43 @@ export function SignUp() {
 									type="password"
 									error={errors.password?.message}
 									icon="LockIcon"
-									label="Password"
-									placeholder="Type your password"
+									label="Senha"
+									placeholder="Sua senha de acesso"
 									{...field}
 								/>
 							)}
 						/>
 						<Controller
-							name="passwordConfirmation"
+							name="confirmPassword"
 							control={control}
 							render={({ field }) => (
 								<Input
-									id="passwordConfirmation"
+									id="confirmPassword"
 									type="password"
-									error={errors.passwordConfirmation?.message}
+									error={errors.confirmPassword?.message}
 									icon="LockIcon"
-									label="Password Confirmation"
-									placeholder="Confirm your password"
+									label="Confirmar senha"
+									placeholder="Confirme sua senha"
 									{...field}
 								/>
 							)}
 						/>
 					</div>
 				</div>
+
 				<Button
-					label="Sign in"
-					onClick={handleSubmit(handleSignUp)}
+					label="Cadastrar"
+					type="submit"
 					size="md"
 					variant="solid"
-					icon="ArrowRight02Icon"
-					iconPosition="right"
+					disabled={isSubmitting}
 				/>
 			</form>
-			<div className="flex flex-col gap-2">
-				<p>Already have an account? </p>
+
+			<div className="flex flex-col items-center gap-4">
+				<p className="text-gray-500">Já tem uma conta?</p>
 				<Button
-					label="Sign in"
+					label="Acessar"
 					onClick={handleSignIn}
 					size="md"
 					variant="outline"
