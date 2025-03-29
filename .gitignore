@@ -24,6 +24,6 @@ dist-ssr
 *.sw?
 
 api
-.env.local
+.env
 
 !src/api
