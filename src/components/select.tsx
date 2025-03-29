@@ -47,25 +47,14 @@ export function Select({
 		onChange?.(newValue);
 	};
 
-	const getSelectedLabel = () => {
-		const selectedOption = options.find(
-			(option) => option.value === selectedValue,
-		);
-		return selectedOption ? selectedOption.label : placeholder;
-	};
-
 	const IconComponent = icon ? (HugeIcons[icon] as React.ElementType) : null;
 
 	return (
-		<div className={cn("flex", "flex-col", "mb-5", "w-full")}>
+		<div className="flex flex-col w-full">
 			{label && (
 				<label
 					htmlFor={id}
-					className={cn(
-						"label-md",
-						"uppercase",
-						isFocused ? "text-orange-base" : "text-gray-300",
-					)}
+					className="text-sm font-medium text-gray-700 mb-1 uppercase"
 				>
 					{label}
 				</label>
@@ -79,103 +68,93 @@ export function Select({
 					<SelectPrimitive.Trigger
 						id={id}
 						className={cn(
-							"relative",
-							"flex",
-							"w-full",
-							"px-3",
-							"py-2",
-							"justify-between",
-							"border-b",
-							"border-gray-100",
-							"focus:outline-none",
-							"focus:border-gray-400",
-							"text-gray-400",
-							"body-md",
-							"placeholder-gray-200",
-							isFocused ? "text-orange-base" : "text-gray-300",
+							"flex items-center justify-between w-full px-4 py-2.5 text-left",
+							"bg-white border border-gray-200 rounded-lg",
+							"focus:outline-none focus:ring-2 focus:ring-orange-base focus:border-transparent",
+							"hover:border-gray-300 transition-colors duration-200",
+							isFocused ? "border-orange-base" : ""
 						)}
 						onFocus={handleFocus}
 						onBlur={handleBlur}
 					>
-						{IconComponent && (
-							<div
-								className={cn(
-									"absolute",
-									"left-0",
-									"pl-0",
-									isFocused || selectedValue
-										? "text-orange-base"
-										: "text-gray-300",
-								)}
-							>
-								<IconComponent />
-							</div>
-						)}
-
-						<div
-							className={cn(
-								"flex",
-								"items-center",
-								"w-full",
-								icon ? "pl-7" : "",
-								selectedValue === null && "text-gray-200",
+						<div className="flex items-center gap-2">
+							{IconComponent && (
+								<IconComponent
+									size={20}
+									className={cn(
+										"text-gray-400",
+										isFocused || selectedValue ? "text-orange-base" : ""
+									)}
+								/>
 							)}
-						>
-							<SelectPrimitive.Value placeholder={placeholder}>
-								{getSelectedLabel()}
-							</SelectPrimitive.Value>
+							<SelectPrimitive.Value
+								placeholder={placeholder}
+								className={cn(
+									"text-gray-900",
+									!selectedValue && "text-gray-400"
+								)}
+							/>
 						</div>
-
-						<SelectPrimitive.Icon>
-							<HugeIcons.ArrowDown01Icon />
-						</SelectPrimitive.Icon>
+						<div className="flex items-center gap-2">
+							{selectedValue && (
+								<button
+									type="button"
+									onClick={(e) => {
+										e.stopPropagation();
+										handleClear();
+									}}
+									className="p-0.5 hover:bg-gray-100 rounded-full text-gray-400 hover:text-gray-500"
+								>
+									<HugeIcons.Cancel01Icon size={16} />
+								</button>
+							)}
+							<SelectPrimitive.Icon>
+								<HugeIcons.ArrowDown01Icon
+									size={20}
+									className="text-gray-400"
+								/>
+							</SelectPrimitive.Icon>
+						</div>
 					</SelectPrimitive.Trigger>
 
-					{selectedValue && (
-						<button
-							type="button"
-							onClick={handleClear}
-							className="top-1/2 right-9 absolute bg-shape px-1 rounded-full text-gray-300 hover:text-gray-500 leading-none transform -translate-y-1/2"
-							aria-label="Clear selection"
+					<SelectPrimitive.Portal>
+						<SelectPrimitive.Content
+							position="popper"
+							className="z-50 w-[var(--radix-select-trigger-width)] bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden"
 						>
-							<HugeIcons.Cancel01Icon width={16} />
-						</button>
-					)}
-
-					<SelectPrimitive.Content>
-						<SelectPrimitive.Viewport className="flex flex-col items-start bg-white shadow-lg py-2 rounded-lg w-full">
-							{options.map((option) => (
-								<SelectPrimitive.Item
-									key={option.value}
-									value={option.value}
-									className="flex justify-between items-center px-4 w-full h-12 data-[state=checked]:text-orange-base hover:text-orange-dark cursor-pointer"
-								>
-									<SelectPrimitive.ItemText>
-										{option.label}
-									</SelectPrimitive.ItemText>
-
-									<SelectPrimitive.ItemIndicator>
-										<HugeIcons.Tick02Icon />
-									</SelectPrimitive.ItemIndicator>
-								</SelectPrimitive.Item>
-							))}
-						</SelectPrimitive.Viewport>
-					</SelectPrimitive.Content>
+							<SelectPrimitive.Viewport>
+								{options.map((option) => (
+									<SelectPrimitive.Item
+										key={option.value}
+										value={option.value}
+										className={cn(
+											"flex items-center justify-between px-4 py-2.5",
+											"text-gray-900 focus:bg-orange-50 focus:outline-none",
+											"data-[highlighted]:bg-orange-50 data-[highlighted]:outline-none",
+											"cursor-pointer hover:bg-orange-50"
+										)}
+									>
+										<SelectPrimitive.ItemText>
+											{option.label}
+										</SelectPrimitive.ItemText>
+										<SelectPrimitive.ItemIndicator>
+											<HugeIcons.Tick02Icon
+												size={16}
+												className="text-orange-base"
+											/>
+										</SelectPrimitive.ItemIndicator>
+									</SelectPrimitive.Item>
+								))}
+							</SelectPrimitive.Viewport>
+						</SelectPrimitive.Content>
+					</SelectPrimitive.Portal>
 				</div>
 			</SelectPrimitive.Root>
 
 			{error && (
-				<div
-					className={cn(
-						"flex",
-						"items-center",
-						"mt-2",
-						"text-danger",
-						"body-xs",
-					)}
-				>
-					<HugeIcons.AlertCircleIcon className="mr-1 w-4 h-4" />
-					{error}
+				<div className="flex items-center gap-1 mt-1 text-red-500 text-sm">
+					<HugeIcons.AlertCircleIcon size={14} />
+					<span>{error}</span>
 				</div>
 			)}
 		</div>

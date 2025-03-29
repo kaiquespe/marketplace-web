@@ -25,17 +25,17 @@ export function Products() {
 	return (
 		<>
 			<Helmet title="Produtos" />
-			<div className="flex flex-col gap-10 px-32 py-10">
-				<section className="flex flex-col gap-2 mt-16">
+			<div className="flex flex-col gap-10 p-4 sm:p-6 md:p-8 lg:px-32 lg:py-10">
+				<section className="flex flex-col gap-2 mt-8 lg:mt-16">
 					<h1 className="title-md">Seus produtos</h1>
 					<p className="body-sm">Acesse gerencie a sua lista de produtos à venda</p>
 				</section>
-				<section className="flex gap-8">
-					<aside className="w-[280px]">
+				<section className="flex flex-col lg:flex-row gap-8">
+					<aside className="w-full lg:w-[280px]">
 						<Filters />
 					</aside>
 					<div className="flex-1">
-						<div className="gap-4 grid grid-cols-2">
+						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
 							{productsData?.data.products?.map((product) => (
 								<ProductCard
 									id={product.id}

@@ -6,107 +6,104 @@ import { ProductImageUpload } from "../../../components/product-image-upload";
 import { Select } from "../../../components/select";
 
 export function ProductForm() {
-	const params = useParams<{ id: string }>();
-	const isEditing = Boolean(params.id);
+	const { id } = useParams();
+	const isEditing = !!id;
 
 	return (
 		<>
-			<Helmet title={isEditing ? "Edição de Produto" : "Novo produto"} />
-			<div className="flex flex-col gap-10 px-32 py-10">
-				<section className="flex flex-col gap-2 mt-16">
-					<div className="flex justify-between items-start">
-						<div>
-							<h1 className="title-md">{isEditing ? "Editar produto" : "Novo produto"}</h1>
-							<p className="body-sm text-gray-500">
-								{isEditing
-									? "Gerencie as informações do produto selecionado"
-									: "Cadastre um produto para venda na plataforma"}
-							</p>
-						</div>
-						{isEditing && (
-							<div className="flex gap-4">
-								<Button
-									label="Marcar como vendido"
-									variant="link"
-									size="sm"
-									onClick={() => {}}
-									icon="Tick02Icon"
-								/>
-								<Button
-									label="Desativar produto"
-									variant="link"
-									size="sm"
-									onClick={() => {}}
-									icon="UnavailableIcon"
-								/>
-							</div>
-						)}
-					</div>
+			<Helmet title={isEditing ? "Editar produto" : "Cadastrar produto"} />
+			<div className="flex flex-col gap-10 p-4 sm:p-6 md:p-8 lg:px-32 lg:py-10">
+				<section className="flex flex-col gap-2 mt-8 lg:mt-16">
+					<h1 className="title-md">
+						{isEditing ? "Editar produto" : "Cadastrar produto"}
+					</h1>
+					<p className="body-sm">
+						{isEditing
+							? "Edite as informações do seu produto"
+							: "Cadastre um novo produto para vender"}
+					</p>
 				</section>
 
-				<section className="flex gap-8">
-					<aside className="w-[415px]">
+				<section className="flex flex-col lg:flex-row gap-8">
+					<div className="w-full lg:w-[400px]">
 						<ProductImageUpload />
-					</aside>
+					</div>
 
-					<div className="flex-1">
-						<div className="bg-white rounded-[20px] p-6">
-							<h3 className="text-lg font-medium mb-6">Dados do produto</h3>
-
-							<form className="flex flex-col gap-6">
-								<div className="flex gap-4">
-									<div className="flex-1">
-										<Input
-											id="title"
-											type="text"
-											label="Título"
-											placeholder="Nome do produto"
-										/>
-									</div>
-									<div className="w-[180px]">
-										<Input
-											id="price"
-											type="text"
-											label="Preço"
-											placeholder="R$ 0,00"
-										/>
-									</div>
-								</div>
-
-								<Input
-									id="description"
-									type="text"
-									label="Descrição"
-									placeholder="Descreva seu produto em poucas palavras"
-								/>
-
-								<Select
-									id="category"
-									label="Categoria"
-									placeholder="Selecione uma categoria"
-									options={[
-										{ label: "Eletrônicos", value: "electronics" },
-										{ label: "Acessórios", value: "accessories" },
-										{ label: "Roupas", value: "clothing" },
-									]}
-								/>
-
-								<div className="flex justify-end gap-4 pt-4">
-									<Button
-										label="Cancelar"
-										variant="outline"
-										size="md"
-										onClick={() => {}}
-									/>
-									<Button
-										label={isEditing ? "Salvar alterações" : "Salvar produto"}
-										variant="solid"
-										size="md"
-										onClick={() => {}}
+					<div className="flex-1 bg-white rounded-[20px] p-6">
+						<form className="flex flex-col gap-6">
+							<div className="flex flex-col gap-4">
+								<div>
+									<label htmlFor="title" className="text-sm font-medium">
+										Título
+									</label>
+									<Input
+										id="title"
+										type="text"
+										placeholder="Camisa básica branca"
 									/>
 								</div>
-							</form>
-						</div>
+
+								<div>
+									<label htmlFor="price" className="text-sm font-medium">
+										Preço
+									</label>
+									<Input
+										id="price"
+										type="text"
+										placeholder="R$ 0,00"
+									/>
+								</div>
+
+								<div>
+									<label htmlFor="description" className="text-sm font-medium">
+										Descrição
+									</label>
+									<textarea
+										id="description"
+										className="mt-2 w-full h-32 resize-none rounded-lg border border-zinc-300 px-3 py-2"
+										placeholder="Descreva o seu produto em detalhes"
+									/>
+								</div>
+
+								<div>
+									<label htmlFor="category" className="text-sm font-medium">
+										Categoria
+									</label>
+									<Select
+										id="category"
+										placeholder="Selecione uma categoria"
+										options={[
+											{ label: "Eletrônicos", value: "electronics" },
+											{ label: "Acessórios", value: "accessories" },
+											{ label: "Roupas", value: "clothing" },
+										]}
+									/>
+								</div>
+							</div>
+
+							<div className="flex flex-col-reverse sm:flex-row gap-4 pt-5">
+								{isEditing && (
+									<>
+										<Button
+											variant="outline"
+											label="Marcar como vendido"
+											onClick={() => {}}
+										/>
+										<Button
+											variant="outline"
+											label="Desativar produto"
+											onClick={() => {}}
+										/>
+										<div className="flex-1" />
+									</>
+								)}
+								<Button
+									variant="solid"
+									label={isEditing ? "Salvar alterações" : "Cadastrar produto"}
+									onClick={() => {}}
+								/>
+							</div>
+						</form>
 					</div>
 				</section>
 			</div>
