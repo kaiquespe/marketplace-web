@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import { Header } from "../components/header";
-import { api } from "../services/api";
 
 export function AppLayout() {
 	return (
