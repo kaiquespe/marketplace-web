@@ -4,7 +4,6 @@ import { Button } from "../../../components/button";
 import { Input } from "../../../components/input";
 import { ProductImageUpload } from "../../../components/product-image-upload";
 import { Select } from "../../../components/select";
-import { cn } from "../../../lib/utils";
 
 export function ProductForm() {
 	const params = useParams<{ id: string }>();
