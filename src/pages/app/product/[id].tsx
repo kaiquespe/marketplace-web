@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../../../components/button";
 import { Input } from "../../../components/input";
 import { ProductImageUpload } from "../../../components/product-image-upload";
@@ -7,21 +7,37 @@ import { Select } from "../../../components/select";
 
 export function ProductForm() {
 	const { id } = useParams();
+	const navigate = useNavigate();
 	const isEditing = !!id;
+
+	function handleBack() {
+		navigate(-1);
+	}
 
 	return (
 		<>
 			<Helmet title={isEditing ? "Editar produto" : "Cadastrar produto"} />
 			<div className="flex flex-col gap-10 p-4 sm:p-6 md:p-8 lg:px-32 lg:py-10">
 				<section className="flex flex-col gap-2 mt-8 lg:mt-16">
-					<h1 className="title-md">
-						{isEditing ? "Editar produto" : "Cadastrar produto"}
-					</h1>
-					<p className="body-sm">
-						{isEditing
-							? "Edite as informações do seu produto"
-							: "Cadastre um novo produto para vender"}
-					</p>
+					<div className="flex items-center gap-4">
+						<Button
+							variant="outline"
+							label="Voltar"
+							onClick={handleBack}
+							icon="ArrowLeft02Icon"
+							iconPosition="left"
+						/>
+						<div>
+							<h1 className="title-md">
+								{isEditing ? "Editar produto" : "Cadastrar produto"}
+							</h1>
+							<p className="body-sm">
+								{isEditing
+									? "Edite as informações do seu produto"
+									: "Cadastre um novo produto para vender"}
+							</p>
+						</div>
+					</div>
 				</section>
 
 				<section className="flex flex-col lg:flex-row gap-8">
